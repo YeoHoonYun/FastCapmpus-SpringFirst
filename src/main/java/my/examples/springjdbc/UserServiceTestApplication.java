@@ -19,7 +19,9 @@ public class UserServiceTestApplication {
             System.out.println(user);
         }
 
-        Long id = userService.insertUser("윤여훈", "Hoon", "cjswo9207@gmail.com","1234");
-        System.out.println(id);
+//        Long id = userService.insertUser("윤여훈", "Hoon", "cjswo9207@gmail.com","1234");
+//        System.out.println(id);
+//        System.out.println(userService.emailToPasswd("cjswo9207@naver.com"));
+//        System.out.println(userService.emailToUser("cjswo9207@naver.com"));
     }
 }

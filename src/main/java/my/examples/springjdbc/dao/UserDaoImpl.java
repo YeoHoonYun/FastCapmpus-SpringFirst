@@ -1,7 +1,5 @@
 package my.examples.springjdbc.dao;
 
-import com.sun.javafx.collections.MappingChange;
-import my.examples.springjdbc.dto.Board;
 import my.examples.springjdbc.dto.User;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.*;
 
-import static my.examples.springjdbc.dao.UserDaoSql.*;
+import static my.examples.springjdbc.dao.query.UserDaoSql.*;
 
 /**
  * Created by cjswo9207u@gmail.com on 2019-01-24
@@ -24,8 +22,6 @@ public class UserDaoImpl implements UserDao {
     private SimpleJdbcInsert simpleJdbcInsert;
     private NamedParameterJdbcTemplate jdbc;
     private RowMapper<User> rowMapper = BeanPropertyRowMapper.newInstance(User.class);
-    // 스프링 컨테이너는 인스턴스를 생성하려고 생성자를 호출한다.
-    // 생성자를 호출하는데, DataSource를 주입한다. (생성자 주입)
     public UserDaoImpl(DataSource dataSource) {
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
@@ -38,10 +34,23 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public Long insertUser(String name, String nickname, String email, String passwd){
-        //"insert into user(name, nickname, email, passwd, regdate) values (:name, :nickname, :email, :passwd, now())";
-//        Long id = null;
+    public String emailToPasswd(String email){
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("email", email);
+        String passwd = jdbc.queryForObject(SELECT_BY_EMAIL, paramMap, rowMapper).getPasswd();
+        return passwd;
+    }
 
+    @Override
+    public User emailToUser(String email){
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("email", email);
+        User user = jdbc.queryForObject(SELECT_BY_USER, paramMap, rowMapper);
+        return user;
+    }
+
+    @Override
+    public Long insertUser(String name, String nickname, String email, String passwd){
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("name", name);
         paramMap.put("nickname", nickname);

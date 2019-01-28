@@ -1,5 +1,6 @@
 package my.examples.springjdbc.service;
 
+import com.sun.javafx.collections.MappingChange;
 import my.examples.springjdbc.dao.UserDao;
 import my.examples.springjdbc.dto.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-//    public UserServiceImpl(UserDao userDao) {
-//        this.userDao = userDao;
-//    }
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     @Transactional
@@ -32,5 +33,17 @@ public class UserServiceImpl implements UserService {
     public Long insertUser(String name, String nickname, String email, String passwd){
         Long id = userDao.insertUser(name, nickname, email, passwd);
         return id;
+    }
+
+    @Override
+    public String emailToPasswd(String email){
+        String passwd = userDao.emailToPasswd(email);
+        return passwd;
+    }
+
+    @Override
+    public User emailToUser(String email){
+        User user = userDao.emailToUser(email);
+        return user;
     }
 }

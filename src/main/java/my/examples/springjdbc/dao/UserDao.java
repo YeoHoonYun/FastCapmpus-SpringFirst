@@ -11,5 +11,9 @@ import java.util.List;
 public interface UserDao {
     public List<User> selectAll();
 
+    String emailToPasswd(String email);
+
+    User emailToUser(String email);
+
     Long insertUser(String name, String nickname, String email, String passwd);
 }

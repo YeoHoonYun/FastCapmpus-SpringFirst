@@ -12,4 +12,8 @@ public interface UserService {
     public List<User> selectAll();
 
     Long insertUser(String name, String nickname, String email, String passwd);
+
+    String emailToPasswd(String email);
+
+    User emailToUser(String email);
 }
