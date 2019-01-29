@@ -23,13 +23,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<User> selectAll() {
         return userDao.selectAll();
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public Long insertUser(String name, String nickname, String email, String passwd){
         Long id = userDao.insertUser(name, nickname, email, passwd);
         return id;
